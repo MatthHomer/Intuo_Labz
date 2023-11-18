@@ -1,0 +1,99 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+
+.App {
+    text-align: center;
+    display: flex;
+    min-height: 100vh;
+    align-items: center;
+    justify-content: center;
+}
+
+.auth-form-container {
+    display: flex;
+    flex-direction: column;
+    padding-top: 3rem;
+}
+
+.register-form {
+    display: flex;
+    flex-direction: column;
+    padding-top: 3rem;
+
+}
+
+label {
+    display: flex;
+    flex-direction: column;
+    margin-top: 2rem;
+    color: #2C3532;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.25rem;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.login-form {
+    text-align: left;
+    margin-left: 10%;
+    margin-top: 4rem;
+}
+
+input {
+    margin: 0.5rem 0;
+    padding: 1rem;
+    border-radius: 0.3125rem;
+    border: 0.2px solid #c3cdca;
+    background: rgba(44, 53, 50, 0.04);
+    width: 90%;
+}
+
+input::placeholder {
+    color: rgba(44, 53, 50, 0.50);
+    font-family: 'Poppins';
+    font-size: 0.85rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
+
+.error-message {
+    color: red;
+}
+
+button {
+    display: flex;
+    flex-direction: column;
+    border: none;
+    color: white;
+    align-items: center;
+    /* Center vertically */
+    justify-content: center;
+    border-radius: 10px;
+    cursor: pointer;
+    flex-shrink: 0;
+    border-radius: 0.3125rem;
+    background: #2C3532;
+    text-align: center;
+    margin-top: 1rem;
+}
+
+.link-btn {
+    margin-left: 20%;
+    width: 276px;
+    height: 50px;
+    flex-shrink: 0;
+    color: white;
+    border-radius: 5px;
+    background: #2C3532;
+    font-family: 'Poppins';
+    font-size: 1.25rem;
+    font-weight: 600;
+    line-height: normal;
+}
+
+.logo {
+    width: 36rem;
+    height: 4.4405rem;
+    flex-shrink: 0;
+}
