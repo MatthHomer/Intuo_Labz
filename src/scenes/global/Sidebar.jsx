@@ -162,22 +162,22 @@ const Sidebar = () => {
               setSelected={setSelected}
             />
             <Item
-              title="Criar Usuários"
-              to="/form"
+              title="Gerenciar Usuários"
+              to="/gerenciar_usuarios"
               icon={<PersonOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
             <Item
-              title="Gerenciar Time"
-              to="/team"
+              title="Usuários"
+              to="/usuarios"
               icon={<PeopleOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
             <Item
               title="Conexões"
-              to="/contacts"
+              to="/conexoes"
               icon={<ContactsOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
@@ -190,8 +190,8 @@ const Sidebar = () => {
               setSelected={setSelected}
             /> */}
             <Item
-              title="Configuração"
-              to="/configuracao"
+              title="Atendimentos"
+              to="/atendimentos"
               icon={<ChatIcon />}
               selected={selected}
               setSelected={setSelected}

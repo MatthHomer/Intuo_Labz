@@ -3,8 +3,8 @@ import { Box, Button, TextField, MenuItem } from "@mui/material";
 import { Formik } from "formik";
 import * as yup from "yup";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import Header from "../../../src/components/Header";
-import Lista from "../../../src/components/Lista";
+import Header from "../../components/Header";
+import Lista from "../../components/Lista";
 import axios from "axios";
 
 const Form = () => {

@@ -2,14 +2,14 @@ import { useState, useEffect } from "react";
 import { Routes, Route, useLocation, Navigate } from "react-router-dom";
 import Topbar from "./scenes/global/Topbar";
 import Sidebar from "./scenes/global/Sidebar";
-import Team from "./scenes/team";
+import Team from "./scenes/usuarios";
 import Invoices from "./scenes/invoices";
-import Contacts from "./scenes/contacts";
-import Form from "./scenes/form";
+import Contacts from "./scenes/conexao";
+import Form from "./scenes/gerenciar_usuarios";
 import FAQ from "./scenes/faq";
 import Calendario from "./scenes/calendar";
 import Login from "./scenes/login";
-import Configuracao from "./scenes/configuracao";
+import Configuracao from "./scenes/atendimento";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import { ColorModeContext, useMode } from "./theme";
 import { useNavigate } from "react-router-dom"; // Importe useNavigate
@@ -58,15 +58,15 @@ function App() {
                 element={<PrivateRoute element={<Calendario />} />}
               />
               <Route
-                path="/form"
+                path="/gerenciar_usuarios"
                 element={<PrivateRoute element={<Form />} />}
               />
               <Route
-                path="/team"
+                path="/usuarios"
                 element={<PrivateRoute element={<Team />} />}
               />
               <Route
-                path="/contacts"
+                path="/conexoes"
                 element={<PrivateRoute element={<Contacts />} />}
               />
               <Route
@@ -78,7 +78,7 @@ function App() {
                 element={<PrivateRoute element={<FAQ />} />}
               />
               <Route
-                path="/configuracao"
+                path="/atendimentos"
                 element={<PrivateRoute element={<Configuracao />} />}
               />
             </Routes>
