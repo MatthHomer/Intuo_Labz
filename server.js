@@ -1,19 +1,21 @@
-const express = require("express");
-const mysql = require("mysql2");
-const postgres = require("pg");
-const cors = require("cors"); // Importe o módulo CORS
-const jwt = require("jsonwebtoken"); // Importe a biblioteca JWT
+require('dotenv').config(); // Carrega as variáveis de ambiente do arquivo .env
+
+const express = require('express');
+const mysql = require('mysql2');
+const postgres = require('pg');
+const cors = require('cors');
+const jwt = require('jsonwebtoken');
 const app = express();
 const port = process.env.PORT || 3002;
 
 app.use(express.json());
+app.use(cors());
 
-//Conexão no banco da Amazon
 const db = mysql.createConnection({
-  host: "quidittasbanco.cwujr9p9gxyz.us-east-2.rds.amazonaws.com",
-  user: "admin",
-  password: "quidittas2023",
-  database: "Estoque_Quiditas",
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_DATABASE,
   port: 3306,
 });
 
@@ -27,12 +29,13 @@ db.connect((err) => {
 
 // Conexão no banco da MK Solutions
 const pgConfig = {
-  host: "45.176.31.234",
-  user: "cliente_r",
-  password: "Cl13nt_R",
-  database: "mkData3.0",
+  host: process.env.PG_HOST,
+  user: process.env.PG_USER,
+  password: process.env.PG_PASSWORD,
+  database: process.env.PG_DATABASE,
   port: 5432,
 };
+
 
 const mk = new postgres.Client(pgConfig);
 

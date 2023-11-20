@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Box, Button, TextField, Dialog, LinearProgress, DialogTitle, DialogContent, DialogActions, Typography } from "@mui/material";
+import { Box, Button, TextField } from "@mui/material";
 import { v4 as uuidv4 } from 'uuid'; // Importe o uuidv4
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import Header from "../../components/Header";
@@ -9,26 +9,17 @@ const Configuracao = () => {
     const [isRoutineEnabled, setRoutineEnabled] = useState(false);
     const [respostaCliente, setRespostaCliente] = useState("");
     const [respostaProtocolo, setRespostaProtocolo] = useState("");
-    const [listaDePessoas, setListaDePessoas] = useState([]);
     const [listaDePessoasAprovada, setListaDePessoasAprovada] = useState(false);
-    const [resultados, setResultados] = useState([]);
     const [clientesMkData, setClientesMkData] = useState([]);
     const [pessoasSelecionadas, setPessoasSelecionadas] = useState([]);
     const [telefonePorId, setTelefonePorId] = useState({});
     const [mkToken, setMkToken] = useState(null);
-    const [isTokenObtained, setTokenObtained] = useState(false); // Novo estado para controlar se o token já foi obtido
     const [codpessoa, setcodpessoa] = useState(""); // Adicione o estado para o codpessoa
     const [mensagem, setMensagem] = useState("Olá, @cliente, sua conexão está com problemas no momento, se houver a necessidade de atendimento, este é seu protocolo: @protocolo");
     const [minOltRxPower, setMinOltRxPower] = useState(null); // Estado para armazenar o valor mínimo
     const [oltRxPowerValues, setOltRxPowerValues] = useState([]);
     const [loading, setLoading] = useState(false); // Novo estado para indicar se os dados estão sendo carregados
 
-
-    const handleRowSelection = (params) => {
-        const selectedRows = params.api.getSelectedRows();
-        setPessoasSelecionadas(selectedRows);
-        console.log("Linhas selecionadas:", selectedRows);
-    };
 
     const handleToggleRoutine = () => {
         setRoutineEnabled(!isRoutineEnabled);
