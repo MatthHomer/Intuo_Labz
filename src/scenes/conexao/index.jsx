@@ -3,8 +3,8 @@ import axios from "axios";
 import { Box } from "@mui/material";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
-import Header from "../../components/Header";
 import { useTheme } from "@mui/material";
+import Header from "../../components/Header";
 
 const Contacts = () => {
   const theme = useTheme();
@@ -18,7 +18,7 @@ const Contacts = () => {
     { field: 'contract_id', headerName: 'Codigo Contrato', width: 200 },
   ];
 
-   const fetchData = async (page, authToken) => {
+  const fetchData = async (page, authToken) => {
     const apiUrl = `https://dautoisp.int6tech.com.br/api/diag/v2/onu_status?page=${page}&per_page=10`;
     const apiHeaders = {
       'accept': 'application/json',
@@ -84,33 +84,36 @@ const Contacts = () => {
   }, []);
   return (
     <Box m="20px">
-    <Header title="Conexões" subtitle="Lista de Clientes Int-6" />
-    <Box
-      m="40px 0 0 0"
-      height="650px"
-      sx={{
-        "& .MuiDataGrid-cell": { backgroundColor: colors.primary[100] },
-        "& .name-column--cell": { color: colors.primary[800] },
-        "& .MuiDataGrid-columnHeaders": { backgroundColor: colors.grey[900], borderBottom: "none" },
-        "& .MuiDataGrid-virtualScroller": { backgroundColor: colors.primary[100] },
-        "& .MuiDataGrid-footerContainer": { borderTop: "none", backgroundColor: colors.grey[900] },
-        "& .MuiCheckbox-root": { color: `${colors.greenAccent[200]} !important` },
-        "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
-          color: `${colors.grey[100]} !important`,
-        },
-      }}
-    >
+      <Header title="Conexões" subtitle="Lista de Conexões da Int-6" />
+      <Box
+        m="40px 0 0 0"
+        height="75vh"
+        sx={{
+          "& .MuiDataGrid-cell": { backgroundColor: colors.labz[300], borderColor: colors.labz[500] },
+          "& .name-column--cell": { color: colors.primary[800] },
+          "& .MuiDataGrid-row": {color: colors.grey[900], fontFamily: "Poppins", fontSize: "0.875rem", fontWeight: "500" },
+          "& .MuiDataGrid-virtualScrollerContent": {backgroundColor: colors.labz[300] },
+          "& .MuiDataGrid-columnHeaderTitle": { color: colors.primary[100] },
+          "& .MuiDataGrid-iconSeparator": { color: colors.grey[300] },
+          "& .MuiToolbar-gutters": {  color: colors.primary[100]},
+          "& .MuiDataGrid-columnHeaders": { backgroundColor: colors.grey[900], borderBottom: "none" },
+          "& .MuiDataGrid-virtualScroller": { backgroundColor: colors.primary[100] },
+          "& .MuiDataGrid-footerContainer": { borderTop: "none", backgroundColor: colors.grey[900] },
+          "& .MuiCheckbox-root": { color: `${colors.greenAccent[200]} !important` },
+          "& .MuiDataGrid-toolbarContainer .MuiButton-text": {color: `${colors.grey[100]} !important`,},
+        }}
+      >
         <DataGrid
           rows={data}
           columns={columns}
           components={{
             Toolbar: (props) => (
-                <GridToolbar style={{ display: "flex", flexDirection: "row" }} {...props} />
-              ),
-        }}
-        sx={{
-          fontSize: "14px", //Tamanho de fonte da tabela
-        }}
+              <GridToolbar style={{ display: "flex", flexDirection: "row" }} {...props} />
+            ),
+          }}
+          sx={{
+            fontSize: "14px", //Tamanho de fonte da tabela
+          }}
         />
       </Box>
     </Box>

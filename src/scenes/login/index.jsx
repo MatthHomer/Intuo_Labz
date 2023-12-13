@@ -9,8 +9,7 @@ import {
 } from "@mui/material";
 import { tokens } from "../../theme";
 import { } from './style.css';
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 
 const Login = () => {

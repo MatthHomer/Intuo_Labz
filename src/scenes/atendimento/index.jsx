@@ -1,25 +1,38 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Box, Button, TextField } from "@mui/material";
+import { Box, Button, TextField, Dialog, LinearProgress, DialogTitle, DialogContent, DialogActions, Typography } from "@mui/material";
 import { v4 as uuidv4 } from 'uuid'; // Importe o uuidv4
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
+import { tokens } from "../../theme";
+import { useTheme } from "@mui/material";
 import Header from "../../components/Header";
 
 const Configuracao = () => {
+    const theme = useTheme();
+    const colors = tokens(theme.palette.mode);
     const [isRoutineEnabled, setRoutineEnabled] = useState(false);
     const [respostaCliente, setRespostaCliente] = useState("");
     const [respostaProtocolo, setRespostaProtocolo] = useState("");
+    const [listaDePessoas, setListaDePessoas] = useState([]);
     const [listaDePessoasAprovada, setListaDePessoasAprovada] = useState(false);
+    const [resultados, setResultados] = useState([]);
     const [clientesMkData, setClientesMkData] = useState([]);
     const [pessoasSelecionadas, setPessoasSelecionadas] = useState([]);
     const [telefonePorId, setTelefonePorId] = useState({});
     const [mkToken, setMkToken] = useState(null);
+    const [isTokenObtained, setTokenObtained] = useState(false); // Novo estado para controlar se o token já foi obtido
     const [codpessoa, setcodpessoa] = useState(""); // Adicione o estado para o codpessoa
     const [mensagem, setMensagem] = useState("Olá, @cliente, sua conexão está com problemas no momento, se houver a necessidade de atendimento, este é seu protocolo: @protocolo");
     const [minOltRxPower, setMinOltRxPower] = useState(null); // Estado para armazenar o valor mínimo
     const [oltRxPowerValues, setOltRxPowerValues] = useState([]);
     const [loading, setLoading] = useState(false); // Novo estado para indicar se os dados estão sendo carregados
 
+
+    const handleRowSelection = (params) => {
+        const selectedRows = params.api.getSelectedRows();
+        setPessoasSelecionadas(selectedRows);
+        console.log("Linhas selecionadas:", selectedRows);
+    };
 
     const handleToggleRoutine = () => {
         setRoutineEnabled(!isRoutineEnabled);
@@ -80,7 +93,7 @@ const Configuracao = () => {
                                     });
 
                                     const updatedContractIds = contractIds.map((contractId) => {
-                                        return { originalContractId: contractId, customContractId: 66336600 };
+                                        return { originalContractId: contractId, customContractId: [66336600, 66353866].join(',') };
                                     });
 
                                     updatedContractIds.forEach((contractId) => {
@@ -121,20 +134,20 @@ const Configuracao = () => {
                 });
         }
     }, [isRoutineEnabled, minOltRxPower]);
-    
+
     const sendConfigRequest = () => {
         const selectedPhones = pessoasSelecionadas.map((id) => {
             const pessoa = clientesMkData.find((p) => p.id === id);
             return pessoa ? pessoa.telefone : "";
         });
-    
+
         const validPhones = selectedPhones.filter((phone) => phone !== "");
-    
+
         if (validPhones.length > 0) {
             const user = validPhones.join(',');
-    
+
             console.log("Validação OPT-In", user);
-    
+
             const options = {
                 method: 'POST',
                 headers: {
@@ -143,7 +156,7 @@ const Configuracao = () => {
                 },
                 body: new URLSearchParams({ user }),
             };
-    
+
             fetch('https://api.gupshup.io/sm/api/v1/app/opt/in/OneTelecom', options)
                 .then(response => {
                     if (!response.ok) {
@@ -318,52 +331,78 @@ const Configuracao = () => {
     };
 
     return (
-        <Box m="20px">
-            <Header title="Configuração" subtitle="Gerenciamento de Filtros da Aplicação" />
+        <>
+            <div style={{ display: 'flex' }}>
+    {/* Second Section */}
+    <Box m="20px" display="flex" flexDirection="column">
+        <Header title="Configuração" subtitle="Gerenciamento de Filtros da Aplicação" />
 
-            <TextField
-                style={{ width: 200, backgroundColor: "#98e2f0", margin: '5px' }}
-                type="text"
-                onChange={handleMinOltRxPowerChange}
-                placeholder="Valor Mínimo de oltRxPower"
-            />
-            <div style={{ padding: '10px' }}>
+        <TextField
+            style={{ width: "27rem", backgroundColor: "rgba(44, 53, 50, 0.04)", margin: '5px', borderRadius: "0.3125rem", border: "0.5px", borderColor: "#2C3532" }}
+            type="text"
+            onChange={handleMinOltRxPowerChange}
+            placeholder="Valor Mínimo de oltRxPower"
+        />
 
-                <Button
-                    style={{ width: 200, backgroundColor: isRoutineEnabled ? "#FF0000" : "#33bdb0", margin: '5px', marginLeft: '-10px' }}
-                    variant="contained"
-                    color="primary"
-                    onClick={handleToggleRoutine}
-                >
-                    {isRoutineEnabled ? 'Desligar Rotina' : 'Ligar Rotina'}
-                </Button>
-
-                <Button style={{ width: 200, backgroundColor: "#d94a38", margin: '5px' }} variant="contained" color="primary" onClick={aprovarPessoasSelecionadas}>
-                    Aprovar Selecionados
-                </Button>
-
-                <Button style={{ width: 200, margin: '5px' }} variant="contained" color="primary" onClick={sendConfigRequest}>
-                    Autorizar Telefone
-                </Button>
-
-                <Button style={{ width: 200, backgroundColor: "#44617b", margin: '5px' }} variant="contained" color="primary" onClick={criarAtendimento}>
-                    Criar Atendimento
-                </Button>
-            </div>
-
-            <TextField
-                type="text"
-                value={mensagem}
-                onChange={(e) => setMensagem(e.target.value)}
-                placeholder="Digite sua mensagem"
-                style={{ width: 450, margin: '5px', marginLeft: '0px' }}
-            />
-
-            <Button style={{ width: 150, height: 53, margin: '5px' }} variant="contained" color="primary" onClick={enviarMensagem}>
-                Enviar Mensagem
+        <div style={{ padding: '10px' }}>
+            <Button
+                style={{ width: "12.875rem", height: "3.125rem", borderRadius: "0.3125rem", margin: '5px', marginLeft: '-10px', color: "#FFFF", backgroundColor: isRoutineEnabled ? "#FF0000" : "#5EA989" }}
+                variant="contained"
+                color="primary"
+                onClick={handleToggleRoutine}
+            >
+                {isRoutineEnabled ? 'Desligar Rotina' : 'Ligar Rotina'}
             </Button>
 
-            <Box>
+            <Button style={{ width: "12.875rem", height: "3.125rem", borderRadius: "0.3125rem", margin: '5px', color: "#FFFF", backgroundColor: "#79B5D7" }} variant="contained" color="primary" onClick={aprovarPessoasSelecionadas}>
+                Aprovar Selecionados
+            </Button>
+
+            <Button style={{ width: "12.875rem", height: "3.125rem", borderRadius: "0.3125rem", margin: '5px', color: "#FFFF", backgroundColor: "#44617b" }} variant="contained" color="primary" onClick={criarAtendimento}>
+                Criar Atendimento
+            </Button>
+        </div>
+    </Box>
+
+    {/* First Section */}
+    <Box m="20px">
+        <TextField
+            multiline
+            type="text"
+            rows={4}
+            value={mensagem}
+            onChange={(e) => setMensagem(e.target.value)}
+            placeholder="Digite sua mensagem"
+            style={{ width: 450, margin: '5px', marginLeft: '0px', marginBottom: '10px', backgroundColor: "rgba(44, 53, 50, 0.04)" }}
+        />
+
+        <Button style={{ width: "12.875rem", height: "3.125rem", borderRadius: "0.3125rem", margin: '5px', color: "#FFFF", backgroundColor: "#f26c41" }} variant="contained" color="primary" onClick={sendConfigRequest}>
+            Autorizar Telefone
+        </Button>
+
+        <Button style={{ width: 150, height: 53, margin: '5px' }} variant="contained" color="primary" onClick={enviarMensagem}>
+            Enviar Mensagem
+        </Button>
+    </Box>
+</div>
+
+
+            <Box
+                sx={{
+                    "& .MuiDataGrid-cell": { backgroundColor: colors.labz[300], borderColor: colors.labz[500] },
+                    "& .name-column--cell": { color: colors.primary[800] },
+                    "& .MuiDataGrid-row": { color: colors.grey[900], fontFamily: "Poppins", fontSize: "0.875rem", fontWeight: "500" },
+                    "& .MuiDataGrid-virtualScrollerContent": { backgroundColor: colors.labz[300] },
+                    "& .MuiDataGrid-columnHeaderTitle": { color: colors.primary[100] },
+                    "& .MuiDataGrid-iconSeparator": { color: colors.grey[300] },
+                    "& .MuiToolbar-gutters": { color: colors.primary[100] },
+                    "& .MuiDataGrid-columnHeaders": { backgroundColor: colors.grey[900], borderBottom: "none" },
+                    "& .MuiDataGrid-virtualScroller": { backgroundColor: colors.primary[100] },
+                    "& .MuiDataGrid-footerContainer": { borderTop: "none", backgroundColor: colors.grey[900] },
+                    "& .MuiCheckbox-root": { color: `${colors.greenAccent[200]} !important` },
+                    "& .MuiDataGrid-toolbarContainer .MuiButton-text": { color: `${colors.grey[100]} !important`, },
+                }}
+            >
                 <DataGrid
                     rows={clientesMkData}
                     components={{ Toolbar: GridToolbar }}
@@ -389,14 +428,15 @@ const Configuracao = () => {
                         setTelefonePorId(mapeamentoTelefones);
                     }}
                     checkboxSelection={true}
-                    style={{ height: 400 }}
+                    style={{ height: "55vh" }}
                     headerStyle={{
                         backgroundColor: "#020306", // Cor de fundo do cabeçalho
                         color: "white", // Cor do texto no cabeçalho
                     }}
                 />
             </Box>
-        </Box>
+        </>
+
     );
 };
 

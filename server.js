@@ -1,4 +1,4 @@
-require('dotenv').config(); // Carrega as variáveis de ambiente do arquivo .env
+require('dotenv').config();
 
 const express = require('express');
 const mysql = require('mysql2');
@@ -11,13 +11,19 @@ const port = process.env.PORT || 3002;
 app.use(express.json());
 app.use(cors());
 
-const db = mysql.createConnection({
+const dbConfig = {
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_DATABASE,
   port: 3306,
-});
+};
+
+let db = mysql.createConnection(dbConfig);
+
+function reiniciarConexaoMySQL() {
+  db = mysql.createConnection(dbConfig);
+}
 
 db.connect((err) => {
   if (err) {
@@ -27,7 +33,6 @@ db.connect((err) => {
   console.log("Conexão com o banco de dados estabelecida");
 });
 
-// Conexão no banco da MK Solutions
 const pgConfig = {
   host: process.env.PG_HOST,
   user: process.env.PG_USER,
@@ -35,7 +40,6 @@ const pgConfig = {
   database: process.env.PG_DATABASE,
   port: 5432,
 };
-
 
 const mk = new postgres.Client(pgConfig);
 
@@ -47,9 +51,6 @@ mk.connect((err) => {
   console.log("Conexão com o banco de dados PostgreSQL estabelecida");
 });
 
-// Configure o CORS
-app.use(cors());
-
 app.post("/login", (req, res) => {
   const { email, senha } = req.body;
 
@@ -57,7 +58,6 @@ app.post("/login", (req, res) => {
   console.log("Email:", email);
   console.log("Senha:", senha);
 
-  // Verifique as credenciais no banco de dados (you should use bcrypt to verify the password)
   db.query(
     "SELECT id, email FROM usuario WHERE email = ? AND senha = ?",
     [email, senha],
@@ -70,12 +70,11 @@ app.post("/login", (req, res) => {
       }
 
       if (result.length === 1) {
-        // Create a JWT token if the credentials are correct
         const user = result[0];
         const token = jwt.sign(
           { email: user.email, id: user.id },
           "seu_segredo"
-        ); // Replace "seu_segredo" with a strong secret key
+        );
 
         res.status(200).json({ token, userId: user.id });
       } else {
@@ -115,7 +114,6 @@ app.post("/inserir_usuario", (req, res) => {
   });
 });
 
-// Rota GET para obter informações de usuários
 app.get("/obter_usuarios", (req, res) => {
   db.query("SELECT * FROM usuario", (err, result) => {
     if (err) {
@@ -132,7 +130,7 @@ app.get("/obter_usuario/:userId", (req, res) => {
   const userId = req.params.userId;
 
   db.query(
-    "SELECT nome, cargo FROM usuario WHERE id = ?",
+    "SELECT nome, permissao FROM usuario WHERE id = ?",
     [userId],
     (err, result) => {
       if (err) {
@@ -141,7 +139,7 @@ app.get("/obter_usuario/:userId", (req, res) => {
       } else {
         if (result.length > 0) {
           const user = result[0];
-          res.status(200).json(user); // Retorna nome e cargo do usuário
+          res.status(200).json(user);
         } else {
           res.status(404).json({ error: "Usuário não encontrado" });
         }
@@ -164,7 +162,7 @@ app.get("/obter_estados", (req, res) => {
 });
 
 app.get("/obter_cidades", (req, res) => {
-  const estado = req.query.estado; // Obtenha o estado da consulta
+  const estado = req.query.estado;
 
   if (!estado) {
     return res
@@ -184,13 +182,11 @@ app.get("/obter_cidades", (req, res) => {
   });
 });
 
-// Rota DELETE para excluir um usuário por ID
 app.delete("/excluir_usuarios", (req, res) => {
-  const userIds = req.body.userIds; // Receba a matriz de IDs do corpo da solicitação
+  const userIds = req.body.userIds;
 
-  console.log("IDs a serem excluídos:", userIds); // Adicione este log
+  console.log("IDs a serem excluídos:", userIds);
 
-  // Verifique se userId é um array e contém valores
   if (!Array.isArray(userIds)) {
     return res.status(400).json({ error: "IDs inválidos para exclusão" });
   }
@@ -206,7 +202,11 @@ app.delete("/excluir_usuarios", (req, res) => {
   });
 });
 
-// Rotas da MK Solutions
+app.get("/exemplo_reiniciar_conexao", (req, res) => {
+  reiniciarConexaoMySQL();
+  res.status(200).json({ message: "Conexão reiniciada com sucesso" });
+});
+
 app.get("/obter_clientes_mk/:codcontrato", (req, res) => {
   const contrato = req.params.codcontrato;
 
@@ -225,8 +225,8 @@ app.get("/obter_clientes_mk/:codcontrato", (req, res) => {
       res.status(500).json({ error: "Erro ao obter informações mk_solutions" });
     } else {
       console.log("Informações de mk_solutions obtidas com sucesso");
-      const responseData = result.rows; // Extract the data from the "rows" property
-      res.status(200).json(responseData); // Send the extracted data as the JSON response
+      const responseData = result.rows;
+      res.status(200).json(responseData);
     }
   });
 });

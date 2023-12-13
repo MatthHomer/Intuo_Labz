@@ -59,7 +59,7 @@ const Calendario = () => {
           p="15px"
           borderRadius="4px"
         >
-          <Typography variant="h5">Eventos</Typography>
+          <Typography variant="h5" color={colors.primary[100]}>Eventos</Typography>
           <List>
             {eventosAtuais.map((evento) => (
               <ListItem
@@ -94,9 +94,9 @@ const Calendario = () => {
               listPlugin,
             ]}
             headerToolbar={{
-              left: "prev,next today",
+              left: "prev, next today",
               center: "title",
-              right: "dayGridMonth,timeGridWeek,timeGridDay,listMonth",
+              right: "dayGridMonth, timeGridWeek, timeGridDay, listMonth",
             }}
             initialView="dayGridMonth"
             editable={true}
@@ -106,7 +106,6 @@ const Calendario = () => {
             select={lidarComCliqueNaData}
             eventClick={lidarComCliqueNoEvento}
             eventsSet={(eventos) => setEventosAtuais(eventos)}
-            /* initialEvents={[]} */
             locales={[ ptBrLocale ]} // Adicione o locale de tradução
             locale="pt-br" // Defina o locale como "pt-br"
           />

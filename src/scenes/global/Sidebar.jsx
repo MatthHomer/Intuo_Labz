@@ -79,6 +79,8 @@ const Sidebar = () => {
   return (
     <Box
       sx={{
+        height: "100%", // Use 100% height of the parent container
+        position: "relative", // Use 100% height of the parent container
         "& .pro-sidebar-inner": {
           background: `${colors.primary[400]} !important`,
         },
@@ -94,10 +96,13 @@ const Sidebar = () => {
         "& .pro-menu-item.active": {
           color: "#ffff !important",
         },
+        "& .MuiSvgIcon-root": {
+          color: colors.primary[100],
+        }
       }}
     >
       <ProSidebar collapsed={isCollapsed}>
-        <Menu iconShape="square" >
+        <Menu iconShape="square">
           <MenuItem
             display="flex"
             alignItems="flex-end"
@@ -126,12 +131,12 @@ const Sidebar = () => {
           </MenuItem>
 
           {!isCollapsed && (
-            <Box mb="25px">
+            <Box mb="25px" marginTop="auto">
               <Box display="flex" justifyContent="center" alignItems="center">
                 <img
                   alt="profile-user"
-                  width="180px"
-                  height="180px"
+                  width="120px"
+                  height="120px"
                   src={`../../assets/user.jpeg`}
                   style={{ cursor: "pointer", borderRadius: "50%" }}
                 />
@@ -153,7 +158,7 @@ const Sidebar = () => {
             </Box>
           )}
 
-          <Box paddingLeft={isCollapsed ? "1rem" : "1rem"}>
+          <Box paddingLeft={isCollapsed ? "0.5rem" : "1rem"}>
             <Item
               title="Agenda"
               to="/Calendar"
@@ -212,7 +217,13 @@ const Sidebar = () => {
             />
           </Box>
         </Menu>
-        <Box display="flex" justifyContent="center" alignItems="center" paddingTop={isCollapsed ? "30rem" : "15rem"}>
+        <Box
+          position="absolute"
+          bottom="0"
+          paddingBottom="1rem"
+          display="flex"
+          justifyContent="center"
+          alignItems="center">
           <img
             alt="rodape"
             width={isCollapsed ? "40%" : "90%"}
