@@ -11,9 +11,6 @@ const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
 const Form = () => {
   const isNonMobile = useMediaQuery("(min-width:600px");
-  const [estados, setEstados] = useState([]);
-  const [cidades, setCidades] = useState([]);
-  const [filteredCidades, setFilteredCidades] = useState([]);
   const [updateLista, setUpdateLista] = useState(false);
 
 
