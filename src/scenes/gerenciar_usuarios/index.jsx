@@ -46,35 +46,12 @@ const Form = () => {
       });
   };
 
-/*   const obterEstados = async () => {
-    try {
-      const response = await axios.get("https://main.d2zg9tfetcpofe.amplifyapp.com:3002/obter_estados");
-      const estados = [...new Set(response.data.map((cidade) => cidade.estado))];
-      setEstados(estados);
-    } catch (error) {
-      console.error("Erro ao obter lista de estados:", error);
-    }
-  };
-
-  const obterCidadesPorEstado = async (estado) => {
-    try {
-      const response = await axios.get(`https://main.d2zg9tfetcpofe.amplifyapp.com:3002/obter_cidades?estado=${estado}`);
-      setCidades(response.data);
-      setFilteredCidades(response.data);
-    } catch (error) {
-      console.error("Erro ao obter lista de cidades:", error);
-    }
-  }; */
-
   useEffect(() => {
     obterEstados();
   }, []);
 
   const initialValues = {
     nome: "",
-    /* cidade: "",
-    bairro: "",
-    estado: "", */
     usuario: "",
     senha: "",
     telefone: "",
@@ -96,13 +73,11 @@ const Form = () => {
         initialValues={initialValues}
         validationSchema={yup.object().shape({
           nome: yup.string().required("Campo obrigatório"),
-/*           estado: yup.string().required("Campo obrigatório"),
-          bairro: yup.string().required("Campo obrigatório"), */
           usuario: yup.string().required("Campo obrigatório"),
           senha: yup
             .string()
             .required("Campo obrigatório")
-            .min(6, "A senha deve ter pelo menos 6 caracteres") // Defina o mínimo desejado
+            .min(6, "A senha deve ter pelo menos 6 caracteres")
             .matches(
               /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#\$%^&*])/,
               "A senha deve conter pelo menos uma letra maiúscula, uma letra minúscula, um número e um caractere especial"
@@ -176,69 +151,6 @@ const Form = () => {
                 sx={{ gridColumn: "span 2" }}
               />
 
-              {/* <TextField
-                fullWidth
-                select
-                variant="filled"
-                label="Estado"
-                onBlur={handleBlur}
-                onChange={(e) => {
-                  handleChange(e);
-                  obterCidadesPorEstado(e.target.value);
-                }}
-                value={values.estado}
-                name="estado"
-                error={!!touched.estado && !!errors.estado}
-                helperText={touched.estado && errors.estado}
-                sx={{ gridColumn: "span 2" }}
-              >
-                {estados
-                  .slice()
-                  .sort() // Sort the estados array alphabetically
-                  .map((estado) => (
-                    <MenuItem key={estado} value={estado}>
-                      {estado}
-                    </MenuItem>
-                  ))}
-              </TextField>
-
-              <TextField
-                fullWidth
-                select
-                variant="filled"
-                label="Cidade"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.idCidade} // Use idCidade instead of cidade
-                name="idCidade" // Use idCidade instead of cidade
-                error={!!touched.idCidade && !!errors.idCidade}
-                helperText={touched.idCidade && errors.idCidade}
-                sx={{ gridColumn: "span 2" }}
-              >
-                {filteredCidades
-                  .slice()
-                  .sort((a, b) => a.nome.localeCompare(b.nome))
-                  .map((cidade) => (
-                    <MenuItem key={cidade.id} value={cidade.id}>
-                      {cidade.nome}
-                    </MenuItem>
-                  ))}
-              </TextField>
-
-              <TextField
-                fullWidth
-                variant="filled"
-                type="text"
-                label="Bairro"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.bairro}
-                name="bairro"
-                error={!!touched.bairro && (!!errors.bairro || (values.isSubmitted && !!errors.bairro))}
-                helperText={touched.bairro && (errors.bairro || (values.isSubmitted && errors.bairro))}
-                sx={{ gridColumn: "span 2" }}
-              />
- */}
               <TextField
                 fullWidth
                 variant="filled"
