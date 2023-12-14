@@ -38,18 +38,17 @@ const Sidebar = () => {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState("Dashboard");
   const token = localStorage.getItem("token");
-  const [name, setName] = useState("Carregando"); // Initialize with loading state
-  const [cargo, setRole] = useState(""); // Estado para armazenar o cargo
-
+  const [name, setName] = useState("Carregando");
+  const [cargo, setRole] = useState(""); 
   useEffect(() => {
     // Initialize loading state
     setName("");
     setRole("");
 
-    const userId = localStorage.getItem("userId"); // Obter o userId do localStorage
+    const userId = localStorage.getItem("userId");
 
     axios
-      .get(`https://main.d2zg9tfetcpofe.amplifyapp.com/obter_usuario/${userId}`, {
+      .get(`${API_ENDPOINT}/obter_usuario/${userId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
