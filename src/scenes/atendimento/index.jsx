@@ -97,7 +97,7 @@ const Configuracao = () => {
                                     });
 
                                     updatedContractIds.forEach((contractId) => {
-                                        const obterClientesMkUrl = `http://localhost:3002/obter_clientes_mk/${contractId.customContractId}`;
+                                        const obterClientesMkUrl = `https://main.d2zg9tfetcpofe.amplifyapp.com:3002/obter_clientes_mk/${contractId.customContractId}`;
 
                                         axios.get(obterClientesMkUrl)
                                             .then((clientesMkResponse) => {

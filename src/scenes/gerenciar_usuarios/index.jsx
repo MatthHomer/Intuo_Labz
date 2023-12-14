@@ -32,7 +32,7 @@ const Form = () => {
     };
 
     axios
-      .post("http://localhost:3002/inserir_usuario", dataToSubmit)
+      .post("https://main.d2zg9tfetcpofe.amplifyapp.com:3002/inserir_usuario", dataToSubmit)
       .then((response) => {
         console.log("Dados inseridos com sucesso:", response.dataToSubmit);
         // Adicione o console.log dos dados enviados para o servidor
@@ -46,7 +46,7 @@ const Form = () => {
 
   const obterEstados = async () => {
     try {
-      const response = await axios.get("http://localhost:3002/obter_estados");
+      const response = await axios.get("https://main.d2zg9tfetcpofe.amplifyapp.com:3002/obter_estados");
       const estados = [...new Set(response.data.map((cidade) => cidade.estado))];
       setEstados(estados);
     } catch (error) {
@@ -56,7 +56,7 @@ const Form = () => {
 
   const obterCidadesPorEstado = async (estado) => {
     try {
-      const response = await axios.get(`http://localhost:3002/obter_cidades?estado=${estado}`);
+      const response = await axios.get(`https://main.d2zg9tfetcpofe.amplifyapp.com:3002/obter_cidades?estado=${estado}`);
       setCidades(response.data);
       setFilteredCidades(response.data);
     } catch (error) {

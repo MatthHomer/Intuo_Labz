@@ -31,7 +31,7 @@ const Login = () => {
     console.log("Senha:", senha);
   
     try {
-      const response = await axios.post("http://localhost:3002/login", {
+      const response = await axios.post("https://main.d2zg9tfetcpofe.amplifyapp.com:3002/login", {
         email: email,
         senha: senha,
       });

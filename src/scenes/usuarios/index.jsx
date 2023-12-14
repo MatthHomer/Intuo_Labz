@@ -88,7 +88,7 @@ const Team = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3002/obter_usuarios")
+      .get("https://main.d2zg9tfetcpofe.amplifyapp.com:3002/obter_usuarios")
       .then((response) => {
         setFormData(response.data);
       })
@@ -123,7 +123,7 @@ const Team = () => {
 
     // Make sure you're passing the IDs correctly in the request body
     axios
-      .delete("http://localhost:3002/excluir_usuarios", {
+      .delete("https://main.d2zg9tfetcpofe.amplifyapp.com:3002/excluir_usuarios", {
         data: { userIds: selectedUserIds }, // Pass the array of IDs as an object
       })
       .then((response) => {

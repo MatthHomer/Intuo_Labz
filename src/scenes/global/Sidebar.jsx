@@ -49,7 +49,7 @@ const Sidebar = () => {
     const userId = localStorage.getItem("userId"); // Obter o userId do localStorage
 
     axios
-      .get(`http://localhost:3002/obter_usuario/${userId}`, {
+      .get(`https://main.d2zg9tfetcpofe.amplifyapp.com:3002/obter_usuario/${userId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
