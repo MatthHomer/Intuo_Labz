@@ -7,6 +7,8 @@ import Header from "../../components/Header";
 import Lista from "../../components/Lista";
 import axios from "axios";
 
+const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
+
 const Form = () => {
   const isNonMobile = useMediaQuery("(min-width:600px");
   const [estados, setEstados] = useState([]);
@@ -32,7 +34,7 @@ const Form = () => {
     };
 
     axios
-      .post("https://main.d2zg9tfetcpofe.amplifyapp.com:3002/inserir_usuario", dataToSubmit)
+      .post(`${API_ENDPOINT}/inserir_usuario`, dataToSubmit)
       .then((response) => {
         console.log("Dados inseridos com sucesso:", response.dataToSubmit);
         // Adicione o console.log dos dados enviados para o servidor
@@ -44,7 +46,7 @@ const Form = () => {
       });
   };
 
-  const obterEstados = async () => {
+/*   const obterEstados = async () => {
     try {
       const response = await axios.get("https://main.d2zg9tfetcpofe.amplifyapp.com:3002/obter_estados");
       const estados = [...new Set(response.data.map((cidade) => cidade.estado))];
@@ -62,7 +64,7 @@ const Form = () => {
     } catch (error) {
       console.error("Erro ao obter lista de cidades:", error);
     }
-  };
+  }; */
 
   useEffect(() => {
     obterEstados();
@@ -70,9 +72,9 @@ const Form = () => {
 
   const initialValues = {
     nome: "",
-    cidade: "",
+    /* cidade: "",
     bairro: "",
-    estado: "",
+    estado: "", */
     usuario: "",
     senha: "",
     telefone: "",
@@ -94,8 +96,8 @@ const Form = () => {
         initialValues={initialValues}
         validationSchema={yup.object().shape({
           nome: yup.string().required("Campo obrigatório"),
-          estado: yup.string().required("Campo obrigatório"),
-          bairro: yup.string().required("Campo obrigatório"),
+/*           estado: yup.string().required("Campo obrigatório"),
+          bairro: yup.string().required("Campo obrigatório"), */
           usuario: yup.string().required("Campo obrigatório"),
           senha: yup
             .string()
@@ -174,7 +176,7 @@ const Form = () => {
                 sx={{ gridColumn: "span 2" }}
               />
 
-              <TextField
+              {/* <TextField
                 fullWidth
                 select
                 variant="filled"
@@ -236,7 +238,7 @@ const Form = () => {
                 helperText={touched.bairro && (errors.bairro || (values.isSubmitted && errors.bairro))}
                 sx={{ gridColumn: "span 2" }}
               />
-
+ */}
               <TextField
                 fullWidth
                 variant="filled"

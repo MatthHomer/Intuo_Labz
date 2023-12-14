@@ -89,8 +89,8 @@ app.post("/inserir_usuario", (req, res) => {
 
   const user = {
     nome: formData.nome,
-    cidade: formData.cidade,
-    bairro: formData.bairro,
+/*     cidade: formData.cidade,
+    bairro: formData.bairro, */
     usuario: formData.usuario,
     senha: formData.senha,
     telefone: formData.telefone,
