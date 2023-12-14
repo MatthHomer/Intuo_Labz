@@ -45,11 +45,6 @@ const Form = () => {
         console.error("Erro ao inserir dados:", error);
       });
   };
-
-  useEffect(() => {
-    obterEstados();
-  }, []);
-
   const initialValues = {
     nome: "",
     usuario: "",
