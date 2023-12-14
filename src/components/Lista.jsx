@@ -8,6 +8,7 @@ import LockOpenOutlinedIcon from "@mui/icons-material/LockOpenOutlined";
 import SecurityOutlinedIcon from "@mui/icons-material/SecurityOutlined";
 import Header from "../components/Header";
 
+const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
 
 const Lista = ({ update, setUpdate }) => {
   const theme = useTheme();
@@ -99,7 +100,7 @@ const Lista = ({ update, setUpdate }) => {
   useEffect(() => {
     if (update) {
       axios
-        .get("http://localhost:3002/obter_usuarios")
+        .get(`${API_ENDPOINT}/obter_usuarios`)
         .then((response) => {
           setFormData(response.data);
         })
@@ -137,7 +138,7 @@ const Lista = ({ update, setUpdate }) => {
 
     // Make sure you're passing the IDs correctly in the request body
     axios
-      .delete("http://localhost:3002/excluir_usuarios", {
+      .delete(`${API_ENDPOINT}/excluir_usuarios`, {
         data: { userIds: selectedUserIds }, // Pass the array of IDs as an object
       })
       .then((response) => {

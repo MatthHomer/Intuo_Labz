@@ -55,7 +55,6 @@ const Form = () => {
     idCidade: "",
   };
 
-
   return (
     <Box m="20px">
       <Header title="Criar Usuário" subtitle="Adicione novos usuários" />
