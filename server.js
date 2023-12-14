@@ -1,10 +1,10 @@
-require('dotenv').config();
+require("dotenv").config();
 
-const express = require('express');
-const mysql = require('mysql2');
-const postgres = require('pg');
-const cors = require('cors');
-const jwt = require('jsonwebtoken');
+const express = require("express");
+const mysql = require("mysql2");
+const postgres = require("pg");
+const cors = require("cors");
+const jwt = require("jsonwebtoken");
 const app = express();
 const port = process.env.PORT || 3002;
 
@@ -71,11 +71,11 @@ app.post("/login", (req, res) => {
 
       if (result.length === 1) {
         const user = result[0];
+
         const token = jwt.sign(
           { email: user.email, id: user.id },
-          "seu_segredo"
+          process.env.JWT_SECRET
         );
-
         res.status(200).json({ token, userId: user.id });
       } else {
         res.status(401).json({ error: "Credenciais inválidas" });
