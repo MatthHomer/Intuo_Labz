@@ -14,6 +14,8 @@ import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import ChatIcon from '@mui/icons-material/Chat'; import ExitToApp from "@mui/icons-material/ExitToApp";
 import axios from "axios";
 
+const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
+
 const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
