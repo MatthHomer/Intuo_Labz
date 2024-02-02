@@ -217,7 +217,7 @@ const Form = () => {
           </form>
         )}
       </Formik>
-      <Lista update={updateLista} setUpdate={setUpdateLista} />
+      {/* <Lista update={updateLista} setUpdate={setUpdateLista} /> */}
     </Box>
 
   );

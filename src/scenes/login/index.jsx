@@ -34,7 +34,7 @@ const Login = () => {
     console.log("Senha:", senha);
 
     try {
-      const response = await axios.post(`${API_ENDPOINT}/login`, {
+      const response = await axios.post("http://localhost:3003/login", {
         email: email,
         senha: senha,
       });

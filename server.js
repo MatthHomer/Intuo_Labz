@@ -6,10 +6,18 @@ const postgres = require("pg");
 const cors = require("cors");
 const jwt = require("jsonwebtoken");
 const app = express();
-const port = process.env.PORT || 3002;
+const port = process.env.PORT || 3003;
 
 app.use(express.json());
-app.use(cors());
+
+const corsOptions = {
+  origin: 'http://localhost:3000', // Substitua pelo seu domínio frontend
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true, // Habilita o uso de cookies, se aplicável
+  optionsSuccessStatus: 204,
+};
+
+app.use(cors(corsOptions));
 
 const dbConfig = {
   host: process.env.DB_HOST,

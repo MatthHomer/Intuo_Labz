@@ -49,22 +49,23 @@ const Configuracao = () => {
             setLoading(true); // Ativar loading quando a rotina é habilitada
 
             console.log("Rotina Alterada com Sucesso")
-            const authUrl = 'https://dautoisp.int6tech.com.br/api/auth/v2/request_token';
+            const authUrl = 'https://autoisp.onetelecom.net.br/api/auth/v2/request_token';
             const authHeaders = {
                 'accept': '*/*',
                 'Content-Type': 'application/json',
             };
             const authData = {
-                'username': 'devel@onetelecom',
-                'password': 'Qdt23@sa98*',
+                'username': 'matheus@quidittas.com.br',
+                'password': 'MQuidit4s@123!@#',
             };
 
             axios.post(authUrl, authData, { headers: authHeaders })
                 .then((authResponse) => {
                     if (authResponse.status === 200) {
                         const authToken = authResponse.data.token;
+                        console.log("AuthToken:", authToken);
                         console.log("Sucesso no primeiro token do Int-6");
-                        const apiUrl = 'https://dautoisp.int6tech.com.br/api/diag/v2/onu_status?page=1&per_page=10';
+                        const apiUrl = 'https://autoisp.onetelecom.net.br/api/diag/v2/onu_status?page=1&per_page=10';
                         const apiHeaders = {
                             'accept': 'application/json',
                             'Authorization': `JWT ${authToken}`,
@@ -91,14 +92,12 @@ const Configuracao = () => {
                                             }
                                         }
                                     });
-
                                     const updatedContractIds = contractIds.map((contractId) => {
-                                        return { originalContractId: contractId, customContractId: [66336600, 66353866].join(',') };
+                                        return { originalContractId: contractId, customContractId: contractId };
                                     });
 
                                     updatedContractIds.forEach((contractId) => {
-                                        const obterClientesMkUrl = `https://main.d2zg9tfetcpofe.amplifyapp.com:3002/obter_clientes_mk/${contractId.customContractId}`;
-
+                                        const obterClientesMkUrl = `http://localhost:3000/obter_clientes_mk/${contractId.customContractId}`;
                                         axios.get(obterClientesMkUrl)
                                             .then((clientesMkResponse) => {
                                                 if (clientesMkResponse.status === 200) {
@@ -333,58 +332,58 @@ const Configuracao = () => {
     return (
         <>
             <div style={{ display: 'flex' }}>
-    {/* Second Section */}
-    <Box m="20px" display="flex" flexDirection="column">
-        <Header title="Configuração" subtitle="Gerenciamento de Filtros da Aplicação" />
+                {/* Second Section */}
+                <Box m="20px" display="flex" flexDirection="column">
+                    <Header title="Configuração" subtitle="Gerenciamento de Filtros da Aplicação" />
 
-        <TextField
-            style={{ width: "27rem", backgroundColor: "rgba(44, 53, 50, 0.04)", margin: '5px', borderRadius: "0.3125rem", border: "0.5px", borderColor: "#2C3532" }}
-            type="text"
-            onChange={handleMinOltRxPowerChange}
-            placeholder="Valor Mínimo de oltRxPower"
-        />
+                    <TextField
+                        style={{ width: "27rem", backgroundColor: "rgba(44, 53, 50, 0.04)", margin: '5px', borderRadius: "0.3125rem", border: "0.5px", borderColor: "#2C3532" }}
+                        type="text"
+                        onChange={handleMinOltRxPowerChange}
+                        placeholder="Valor Mínimo de oltRxPower"
+                    />
 
-        <div style={{ padding: '10px' }}>
-            <Button
-                style={{ width: "12.875rem", height: "3.125rem", borderRadius: "0.3125rem", margin: '5px', marginLeft: '-10px', color: "#FFFF", backgroundColor: isRoutineEnabled ? "#FF0000" : "#5EA989" }}
-                variant="contained"
-                color="primary"
-                onClick={handleToggleRoutine}
-            >
-                {isRoutineEnabled ? 'Desligar Rotina' : 'Ligar Rotina'}
-            </Button>
+                    <div style={{ padding: '10px' }}>
+                        <Button
+                            style={{ width: "12.875rem", height: "3.125rem", borderRadius: "0.3125rem", margin: '5px', marginLeft: '-10px', color: "#FFFF", backgroundColor: isRoutineEnabled ? "#FF0000" : "#5EA989" }}
+                            variant="contained"
+                            color="primary"
+                            onClick={handleToggleRoutine}
+                        >
+                            {isRoutineEnabled ? 'Desligar Rotina' : 'Ligar Rotina'}
+                        </Button>
 
-            <Button style={{ width: "12.875rem", height: "3.125rem", borderRadius: "0.3125rem", margin: '5px', color: "#FFFF", backgroundColor: "#79B5D7" }} variant="contained" color="primary" onClick={aprovarPessoasSelecionadas}>
-                Aprovar Selecionados
-            </Button>
+                        <Button style={{ width: "12.875rem", height: "3.125rem", borderRadius: "0.3125rem", margin: '5px', color: "#FFFF", backgroundColor: "#79B5D7" }} variant="contained" color="primary" onClick={aprovarPessoasSelecionadas}>
+                            Aprovar Selecionados
+                        </Button>
 
-            <Button style={{ width: "12.875rem", height: "3.125rem", borderRadius: "0.3125rem", margin: '5px', color: "#FFFF", backgroundColor: "#44617b" }} variant="contained" color="primary" onClick={criarAtendimento}>
-                Criar Atendimento
-            </Button>
-        </div>
-    </Box>
+                        <Button style={{ width: "12.875rem", height: "3.125rem", borderRadius: "0.3125rem", margin: '5px', color: "#FFFF", backgroundColor: "#44617b" }} variant="contained" color="primary" onClick={criarAtendimento}>
+                            Criar Atendimento
+                        </Button>
+                    </div>
+                </Box>
 
-    {/* First Section */}
-    <Box m="20px">
-        <TextField
-            multiline
-            type="text"
-            rows={4}
-            value={mensagem}
-            onChange={(e) => setMensagem(e.target.value)}
-            placeholder="Digite sua mensagem"
-            style={{ width: 450, margin: '5px', marginLeft: '0px', marginBottom: '10px', backgroundColor: "rgba(44, 53, 50, 0.04)" }}
-        />
+                {/* First Section */}
+                <Box m="20px">
+                    <TextField
+                        multiline
+                        type="text"
+                        rows={4}
+                        value={mensagem}
+                        onChange={(e) => setMensagem(e.target.value)}
+                        placeholder="Digite sua mensagem"
+                        style={{ width: 450, margin: '5px', marginLeft: '0px', marginBottom: '10px', backgroundColor: "rgba(44, 53, 50, 0.04)" }}
+                    />
 
-        <Button style={{ width: "12.875rem", height: "3.125rem", borderRadius: "0.3125rem", margin: '5px', color: "#FFFF", backgroundColor: "#f26c41" }} variant="contained" color="primary" onClick={sendConfigRequest}>
-            Autorizar Telefone
-        </Button>
+                    <Button style={{ width: "12.875rem", height: "3.125rem", borderRadius: "0.3125rem", margin: '5px', color: "#FFFF", backgroundColor: "#f26c41" }} variant="contained" color="primary" onClick={sendConfigRequest}>
+                        Autorizar Telefone
+                    </Button>
 
-        <Button style={{ width: 150, height: 53, margin: '5px' }} variant="contained" color="primary" onClick={enviarMensagem}>
-            Enviar Mensagem
-        </Button>
-    </Box>
-</div>
+                    <Button style={{ width: 150, height: 53, margin: '5px' }} variant="contained" color="primary" onClick={enviarMensagem}>
+                        Enviar Mensagem
+                    </Button>
+                </Box>
+            </div>
 
 
             <Box
