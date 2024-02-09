@@ -429,8 +429,8 @@ const Configuracao = () => {
                     checkboxSelection={true}
                     style={{ height: "55vh" }}
                     headerStyle={{
-                        backgroundColor: "#020306", // Cor de fundo do cabeçalho
-                        color: "white", // Cor do texto no cabeçalho
+                        backgroundColor: "#020306",
+                        color: "white",
                     }}
                 />
             </Box>
