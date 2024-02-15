@@ -75,14 +75,13 @@ const Configuracao = () => {
                             .then((apiResponse) => {
                                 if (apiResponse.status === 200) {
                                     const apiData = apiResponse.data;
-                                    const filteredValues = [];
                                     const contractIds = [];
 
-                                    apiData.forEach((item) => {
+                                    for (let i = 0; i < apiData.length; i++) {
+                                        const item = apiData[i];
                                         const oltRxPower = item.olt_rx_power;
-                                        if (
-                                            parseFloat(oltRxPower) >= minOltRxPower
-                                        ) {
+
+                                        if (parseFloat(oltRxPower) >= minOltRxPower) {
                                             setOltRxPowerValues(filteredValues.map((item) => item.olt_rx_power));
                                             console.log("teste RX", oltRxPowerValues);
                                             filteredValues.push(item);
@@ -90,32 +89,35 @@ const Configuracao = () => {
                                             if (contractId) {
                                                 contractIds.push(contractId);
                                             }
+                                        } else {
+                                            // Se o contrato atual não atender aos critérios, continue para o próximo contrato
+                                            continue;
                                         }
-                                    });
-                                    const updatedContractIds = contractIds.map((contractId) => {
-                                        return { originalContractId: contractId, customContractId: contractId };
-                                    });
 
-                                    updatedContractIds.forEach((contractId) => {
-                                        const obterClientesMkUrl = `http://localhost:3000/obter_clientes_mk/${contractId.customContractId}`;
-                                        axios.get(obterClientesMkUrl)
-                                            .then((clientesMkResponse) => {
-                                                if (clientesMkResponse.status === 200) {
+                                        const updatedContractIds = contractIds.map((contractId) => {
+                                            return { originalContractId: contractId, customContractId: contractId };
+                                        });
 
-                                                    sendConfigRequest();
+                                        updatedContractIds.forEach((contractId) => {
+                                            const obterClientesMkUrl = `http://localhost:3000/obter_clientes_mk/${contractId.customContractId}`;
+                                            axios.get(obterClientesMkUrl)
+                                                .then((clientesMkResponse) => {
+                                                    if (clientesMkResponse.status === 200) {
+                                                        sendConfigRequest();
 
-                                                    const clientesMkData = clientesMkResponse.data.map((row) => ({
-                                                        id: uuidv4(),
-                                                        ...row,
-                                                    }));
-                                                    console.log("API Response:", clientesMkData);
-                                                    setClientesMkData(clientesMkData);
-                                                }
-                                            })
-                                            .catch((clientesMkError) => {
-                                                console.error('Erro ao obter clientes MK:', clientesMkError);
-                                            });
-                                    });
+                                                        const clientesMkData = clientesMkResponse.data.map((row) => ({
+                                                            id: uuidv4(),
+                                                            ...row,
+                                                        }));
+                                                        console.log("API Response:", clientesMkData);
+                                                        setClientesMkData(clientesMkData);
+                                                    }
+                                                })
+                                                .catch((clientesMkError) => {
+                                                    console.error('Erro ao obter clientes MK:', clientesMkError);
+                                                });
+                                        });
+                                    }
                                 } else {
                                     console.log(`Erro ao acessar a URL da segunda solicitação. Código de status: ${apiResponse.status}`);
                                 }
